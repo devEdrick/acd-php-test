@@ -31,7 +31,14 @@ class CallController
      */
     public function index()
     {
-        $callHeaders = $this->callRepository->get();
+        $filters = array_filter([
+            'UserName' => $_GET['username'] ?? '',
+            'fromDate' => $_GET['fromDate'] ?? '',
+            'toDate' => $_GET['toDate'] ?? '',
+        ]);
+    
+        $callHeaders = $this->callRepository->get($filters);
+    
         require_once __DIR__ . '/../../resources/views/call_headers/index.php';
     }
 

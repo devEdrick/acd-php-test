@@ -30,11 +30,15 @@ class CallHeader
 
             $conditions = [];
             if (!empty($filters['UserName'])) {
-                $conditions[] = "UserName = :UserName";
+                $conditions[] = "UserName LIKE :UserName";
             }
 
-            if (!empty($filters['Date'])) {
-                $conditions[] = "Date = :Date";
+            if (!empty($filters['fromDate']) && !empty($filters['toDate'])) {
+                $conditions[] = "Date BETWEEN :fromDate AND :toDate";
+            } elseif (!empty($filters['fromDate'])) {
+                $conditions[] = "Date >= :fromDate";
+            } elseif (!empty($filters['toDate'])) {
+                $conditions[] = "Date <= :toDate";
             }
 
             $query .= implode(" AND ", $conditions);
@@ -44,7 +48,11 @@ class CallHeader
 
         if (!empty($filters)) {
             foreach ($filters as $key => $value) {
-                $stmt->bindValue(":$key", $value);
+                if ($key === 'fromDate' || $key === 'toDate') {
+                    $stmt->bindValue(":$key", $value, PDO::PARAM_STR);
+                } else {
+                    $stmt->bindValue(":$key", $value);
+                }
             }
         }
 

@@ -3,6 +3,26 @@
 
 <a class="btn btn-primary mb-2" href="/calls/create">Create New Call</a>
 
+<form action="/calls" method="GET">
+    <div class="row mb-3">
+        <div class="col">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" name="username" class="form-control" value="<?= htmlspecialchars($_GET['username'] ?? '') ?>">
+        </div>
+        <div class="col">
+            <label for="start_date" class="form-label">Start Date:</label>
+            <input type="datetime-local" id="start_date" name="fromDate" class="form-control" value="<?= htmlspecialchars($_GET['fromDate'] ?? '') ?>">
+        </div>
+        <div class="col">
+            <label for="end_date" class="form-label">End Date:</label>
+            <input type="datetime-local" id="end_date" name="toDate" class="form-control" value="<?= htmlspecialchars($_GET['toDate'] ?? '') ?>">
+        </div>
+        <div class="col-auto align-self-end">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
 <table class="table">
     <thead class="thead-light">
         <tr>
